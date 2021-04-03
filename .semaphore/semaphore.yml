@@ -20,3 +20,10 @@ blocks:
 
       secrets:
       - name: dockerhub-pull-secrets
+
+      epilogue:
+        on_pass:
+          commands:
+           - artifact push job --expire-in 1w /root/tmp/recovery/out/target/product/violet/*zip
+           - artifact push job --expire-in 1w /root/tmp/recovery/out/target/product/violet/*img
+         
