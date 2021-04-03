@@ -1,6 +1,5 @@
 version: v1.0
 name: Ubuntu18 Based Pipeline
-
 agent:
   machine:
     type: e1-standard-8
@@ -12,5 +11,45 @@ blocks:
         commands:
           - checkout
           - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+          - 'docker pull dazz111/ubuntu-sdk:build'
+          - 'docker run -d -it sdk dazz111/ubuntu-sdk:build /bin/bash -c "curl -o build.sh https://raw.githubusercontent.com/dozzler555/jarvis/main/scripts/build.sh; git config --global color.ui false; chmod a+x build.sh; ./build.sh; curl -o tg.sh https://raw.githubusercontent.com/Dazzler555/tg/main/tg.sh; chmod a+x tg.sh; ./tg.sh"'
+      jobs: []
+# .semaphore/semaphore.yml
+
+version: v1.0
+
+name: Using a Docker image
+
+agent:
+
+  machine:
+
+    type: e1-standard-2
+
+    os_image: ubuntu1804
+
+blocks:
+
+  - name: Run container from Docker Hub
+
+    task:
+
+      jobs:
+
+      - name: Authenticate docker pull
+
+        commands:
+
+          - checkout
+
+          - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+
           - docker pull dazz111/ubuntu-sdk:build
-          - docker run -d -it sdk dazz111/ubuntu-sdk:build /bin/bash -c "curl -o build.sh https://raw.githubusercontent.com/dozzler555/jarvis/main/scripts/build.sh; git config --global color.ui false; chmod a+x build.sh; ./build.sh; curl -o tg.sh https://raw.githubusercontent.com/Dazzler555/tg/main/tg.sh; chmod a+x tg.sh; ./tg.sh"
+
+          - docker images
+
+          - docker run -it --name sdk dazz111/ubuntu-sdk /bin/bash -c "curl -o build.sh https://raw.githubusercontent.com/dozzler555/jarvis/main/scripts/build.sh; git config --global color.ui false; chmod a+x build.sh; ./build.sh; curl -o tg.sh https://raw.githubusercontent.com/Dazzler555/tg/main/tg.sh; chmod a+x tg.sh; ./tg.sh" 
+
+      secrets:
+
+      - name: dockerhub-pull-secrets
