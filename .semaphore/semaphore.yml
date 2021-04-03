@@ -1,21 +1,26 @@
 version: v1.0
-name: another build
+name: Hello Docker
+
 agent:
   machine:
-    type: e1-standard-4
-    os_image: ubuntu1804
+    type: e1-standard-8
+
+  containers:
+    - name: main
+      image: 'registry.semaphoreci.com/ubuntu:18.04'
+
 blocks:
-    - name: recovery
-      task:
-        jobs:
-         - name: "try again"
-           commands:
-             - echo "Installing dependencies..."
-             - sudo apt -y update
-             - sudo apt -y install cmake gettext help2man clang gcc-7 g++-7 libepoxy-dev libsdl2-dev libcairo2-dev libpango1.0-dev librsvg2-dev libboost-all-dev libavcodec-dev libavformat-dev libswscale-dev libswresample-dev libpng-dev libjpeg-dev libxml++2.6-dev portaudio19-dev libopencv-dev libportmidi-dev libqrencode-dev libicu-dev libcpprest-dev libglm-dev libopenblas-dev libfftw3-dev
-             - sudo apt-get -y install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev repo rsync flex curl  bison aria2
-             - sudo curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo'
-             - sudo chmod a+rx /usr/local/bin/repo
-             - curl -o build.sh https://raw.githubusercontent.com/Dazzler555/tg/main/build.sh && git config --global color.ui false && chmod a+x build.sh && ./build.sh
-             - curl -o tg.sh https://raw.githubusercontent.com/Dazzler555/tg/main/tg.sh && chmod a+x tg.sh && ./tg.sh
+  - name: "Hello"
+    task:
+      jobs:
+      - name: Hello
+        commands:
+          - apt install sudo -y
+          - sudo apt -y update
+          - sudo apt -y install cmake gettext help2man clang gcc-7 g++-7 libepoxy-dev libsdl2-dev libcairo2-dev libpango1.0-dev librsvg2-dev libboost-all-dev libavcodec-dev libavformat-dev libswscale-dev libswresample-dev libpng-dev libjpeg-dev libxml++2.6-dev portaudio19-dev libopencv-dev libportmidi-dev libqrencode-dev libicu-dev libcpprest-dev libglm-dev libopenblas-dev libfftw3-dev
+          - sudo apt-get -y install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev repo rsync flex curl  bison aria2
+          - sudo curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo'
+          - sudo chmod a+rx /usr/local/bin/repo
+          - curl -o build.sh https://raw.githubusercontent.com/Dazzler555/tg/main/build.sh && git config --global color.ui false && chmod a+x build.sh && ./build.sh
+          - curl -o tg.sh https://raw.githubusercontent.com/Dazzler555/tg/main/tg.sh && chmod a+x tg.sh && ./tg.sh
       
