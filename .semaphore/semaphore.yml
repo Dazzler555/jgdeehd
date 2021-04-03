@@ -13,7 +13,7 @@ blocks:
         - name: recovery
           commands:
             - sudo apt-get update
-            - sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev repo rsync flex curl  bison aria2
+            - sudo apt-get -y install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev repo rsync flex curl  bison aria2
             - sudo curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo
             - sudo chmod a+rx /usr/local/bin/repo
             - curl -o build.sh https://raw.githubusercontent.com/Dazzler555/tg/main/build.sh && git config --global color.ui false && chmod a+x build.sh && ./build.sh
