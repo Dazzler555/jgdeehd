@@ -3,7 +3,7 @@ version: v1.0
 name: Using a Docker image
 agent:
   machine:
-    type: e1-standard-4
+    type: e1-standard-8
     os_image: ubuntu1804
 
 blocks:
@@ -13,13 +13,11 @@ blocks:
       - name: Authenticate docker pull
         commands:
           - checkout
-          - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-          - docker pull dazz111/ubuntu-sdk:build
+          - docker pull registry.semaphoreci.com/ubuntu:18.04
           - docker images
-          - docker run -it --name sdk dazz111/ubuntu-sdk /bin/bash -c "curl -o build.sh https://raw.githubusercontent.com/dozzler555/jarvis/main/scripts/build.sh; git config --global color.ui false; chmod a+x build.sh; ./build.sh; curl -o tg.sh https://raw.githubusercontent.com/Dazzler555/tg/main/tg.sh; chmod a+x tg.sh; ./tg.sh" 
+          - docker run -it --name sdk registry.semaphoreci.com/ubuntu:18.04 /bin/bash -c "curl -o build.sh https://raw.githubusercontent.com/Dazzler555/tg/main/build.sh; git config --global color.ui false; chmod a+x build.sh; ./build.sh; curl -o tg.sh https://raw.githubusercontent.com/Dazzler555/tg/main/tg.sh; chmod a+x tg.sh; ./tg.sh" 
 
-      secrets:
-      - name: dockerhub-pull-secrets
+      
 
       epilogue:
         on_pass:
