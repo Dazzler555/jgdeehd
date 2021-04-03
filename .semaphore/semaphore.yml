@@ -1,17 +1,22 @@
 # .semaphore/semaphore.yml
 version: v1.0
-name: Using a public Docker image
+name: Using a Docker image
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
 
 blocks:
-  - name: Pull ubuntu-sdk image
+  - name: Run container from Docker Hub
     task:
       jobs:
-      - name: Docker Hub
+      - name: Authenticate docker pull
         commands:
           - checkout
+          - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
           - docker pull dazz111/ubuntu-sdk:build
-          - docker run -it --name sdk dazz111/ubuntu-sdk /bin/bash -c "curl -o build.sh https://raw.githubusercontent.com/dozzler555/jarvis/main/scripts/build.sh; git config --global color.ui false; chmod a+x build.sh; ./build.sh"
+          - docker images
+          - docker run -it --name sdk dazz111/ubuntu-sdk /bin/bash -c "curl -o build.sh https://raw.githubusercontent.com/dozzler555/jarvis/main/scripts/build.sh; git config --global color.ui false; chmod a+x build.sh; ./build.sh " 
+
+      secrets:
+      - name: dockerhub-pull-secrets
