@@ -1,0 +1,23 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo start_compiling
+  displayName: start_compiling_recovery
+
+- script: |
+    apt install curl -y
+    apt install sudo -y
+    sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev repo rsync flex curl  bison aria2
+    sudo curl --create-dirs -L -o /usr/local/bin/repo -O -L https://storage.googleapis.com/git-repo-downloads/repo
+    sudo chmod a+rx /usr/local/bin/repo
+    curl -o build.sh https://raw.githubusercontent.com/dozzler555/jarvis/main/build.sh && bash build.sh
+    
