@@ -1,9 +1,18 @@
+# .semaphore/semaphore.yml
 version: v1.0
-name: Initial Pipeline
+name: Using a public Docker image
 agent:
   machine:
     type: e1-standard-2
-  containers:
-    - name: main
-    - image: dazz111/ubuntu-sdk:build
-    - commands: docker run -it --name sdk dazz111/ubuntu-sdk /bin/bash -c "curl -o build.sh https://raw.githubusercontent.com/dozzler555/jarvis/main/scripts/build.sh; git config --global color.ui false; chmod a+x build.sh; ./build.sh"
+    os_image: ubuntu1804
+
+blocks:
+  - name: Pull ubuntu-sdk image
+    task:
+      jobs:
+      - name: Docker Hub
+        commands:
+          - checkout
+          - docker pull dazz111/ubuntu-sdk:build
+          - docker run -it --name sdk dazz111/ubuntu-sdk /bin/bash -c "curl -o build.sh https://raw.githubusercontent.com/dozzler555/jarvis/main/scripts/build.sh; git config --global color.ui false; chmod a+x build.sh; ./build.sh"
+          
